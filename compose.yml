@@ -1,0 +1,16 @@
+services:
+  bot:
+    build: ./bot
+    volumes:
+      - ./bot:/bot
+    restart: always
+    tty: true
+
+  api:
+    build: ./api
+    volumes:
+      - ./api:/api
+    restart: always
+    tty: true
+    ports:
+      - "80:5000"
