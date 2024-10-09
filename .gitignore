@@ -4,3 +4,4 @@ api/__pycache__/
 bot/.env
 bot/tmp/
 bot/.venv/
+bot/module/__pycache__/
