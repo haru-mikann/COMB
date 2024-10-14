@@ -1,18 +1,13 @@
 from fastapi import FastAPI
+import logging 
 
-# import os
-# from dotenv import load_dotenv
-
-import logging
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-# load_dotenv()
-# os.environ[""]
+logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
 
+
 @app.get("/")
 async def root():
-    logger.debug("hello:world")
+    logger.debug("Hello World")
     return [{"hello":"world"}]
