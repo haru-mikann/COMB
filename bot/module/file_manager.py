@@ -13,18 +13,30 @@ class FileInfo:
 def GetLastModifyDate(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
     date_last_modified = os.path.getmtime(full_filepath)
-    mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d-%H-%M-%S') # Format: 2024-07-06 04:19:21
+    mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d-%H-%M-%S')
 
-    # Return format : YEAR-MONTH-DATE HOUR:MINUTE:SECOND
+    # Return format : YEAR-MONTH-DATE-HOUR-MINUTE-SECOND
     # e.g.
     # 2024-09-01-03-41-09
 
     return mod_time_readable
 
-# EN: Check file duration (How long to reach 24 hours from latest change)
-# JP: ファイルの期限を確認（最終更新日時から24時間まであとどれくらいか）
-# def File_duration():
-#     return duration
+# EN: Check if 24 hours has passed from the last modify
+# JP: ファイルの最終更新日時から24時間以上経過しているかを判断
+# Return True when passed 24 hours, return False when not pass 24 hours
+def isPassed24hours(date_string: str) -> bool:
+    try:
+        # Convert the input string to a datetime object
+        date_format = "%Y-%m-%d-%H-%M-%S"
+        given_time = datetime.strptime(date_string, date_format)
+
+        # Get the current time
+        current_time = datetime.now()
+
+        # Check if the difference is more than 24 hours
+        return current_time - given_time > timedelta(hours=24)
+    except ValueError:
+        raise ValueError("The date string must be in the format 'YYYY-MM-DD-HH-MM-SS'")
 
 # EN: Check tmp directory size
 # JP: ディレクトリのサイズを取得
