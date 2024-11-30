@@ -14,10 +14,15 @@ def GetLastModifyDate(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
     date_last_modified = os.path.getmtime(full_filepath)
     mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d %H:%M:%S') # Format: 2024-07-06 04:19:21
+
+    # Return format : YEAR-MONTH-DATE HOUR:MINUTE:SECOND
+    # e.g.
+    # 2024-09-01 03:41:09
+
     return mod_time_readable
 
-# EN: Check file duration (24 hours)
-# JP: ファイルの期限を確認（24時間制限）
+# EN: Check file duration (How long to reach 24 hours from latest change)
+# JP: ファイルの期限を確認（最終更新日時から24時間まであとどれくらいか）
 # def File_duration():
 #     return duration
 
@@ -35,17 +40,21 @@ def Directory_size(filepath):
                 total_size += os.path.getsize(file_path)
     size_in_megabytes = total_size / (1024 * 1024) # Convert to MB
 
+    # Return format : MegaBytes
+    # e.g.
+    # 25.23689
+
     return size_in_megabytes
 
 # Delete file
 def Delete(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
 
-    if os.path.isfile(file_path): # Check if file exists
-        os.remove(file_path)
-        print(f"Deleted {file_path} successfully!")
+    if os.path.isfile(filepath): # Check if file exists
+        os.remove(filepath)
+        print(f"Deleted {filepath} successfully!")
     else:
-        print(f"Delete failed. File {file_path} does not exist.")
+        print(f"Delete failed. File {filepath} does not exist.")
 
 if __name__ == "__main__":
 	print("main")
