@@ -13,11 +13,11 @@ class FileInfo:
 def GetLastModifyDate(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
     date_last_modified = os.path.getmtime(full_filepath)
-    mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d %H:%M:%S') # Format: 2024-07-06 04:19:21
+    mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d-%H-%M-%S') # Format: 2024-07-06 04:19:21
 
     # Return format : YEAR-MONTH-DATE HOUR:MINUTE:SECOND
     # e.g.
-    # 2024-09-01 03:41:09
+    # 2024-09-01-03-41-09
 
     return mod_time_readable
 
