@@ -1,6 +1,20 @@
 import os
 from datetime import datetime
 
+# =======================================================
+# GetLastModifyDate()
+# ファイルの最終更新日時を取得
+#
+# isPassed24hours()
+# ファイルの最終更新日時を指定のフォーマット(GetLastModifyDate()のReturn形式)でとり、24時間以上経過したかどうかを論理型で返す
+#
+# GetDirectorySize()
+# 指定のディレクトリのサイズを取得(MegaBytes単位でReturn)
+#
+# Delete()
+# 指定のファイルを消去
+# =======================================================
+
 class FileInfo:
     # def __init__(self, name, path, date):
     def __init__(self, path):
@@ -14,11 +28,11 @@ def GetLastModifyDate(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
     date_last_modified = os.path.getmtime(full_filepath)
     mod_time_readable = datetime.fromtimestamp(date_last_modified).strftime('%Y-%m-%d-%H-%M-%S')
-
+    # =========================
     # Return format : YEAR-MONTH-DATE-HOUR-MINUTE-SECOND
     # e.g.
     # 2024-09-01-03-41-09
-
+    # =========================
     return mod_time_readable
 
 # EN: Check if 24 hours has passed from the last modify
@@ -40,7 +54,7 @@ def isPassed24hours(date_string: str) -> bool:
 
 # EN: Check tmp directory size
 # JP: ディレクトリのサイズを取得
-def Directory_size(filepath):
+def GetDirectorySize(filepath):
     full_filepath = filepath # TODO tmpディレクトリ作成後（パス決定後）に再度設定
 
     total_size = 0
@@ -51,11 +65,11 @@ def Directory_size(filepath):
             if not os.path.islink(file_path):
                 total_size += os.path.getsize(file_path)
     size_in_megabytes = total_size / (1024 * 1024) # Convert to MB
-
+    # =========================
     # Return format : MegaBytes
     # e.g.
     # 25.23689
-
+    # =========================
     return size_in_megabytes
 
 # Delete file
