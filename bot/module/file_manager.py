@@ -39,7 +39,32 @@ def GetLastModifyDate(filepath):
 # JP: ファイルの最終更新日時から24時間以上経過しているかを判断
 # Return True when passed 24 hours, return False when not pass 24 hours
 def isPassed24hours(date_string: str) -> bool:
+    """
+    input   : date format
+    output  : bool
+    """
     try:
+        # Convert the input string to a datetime object
+        date_format = "%Y-%m-%d-%H-%M-%S"
+        given_time = datetime.strptime(date_string, date_format)
+
+        # Get the current time
+        current_time = datetime.now()
+
+        # Check if the difference is more than 24 hours
+        return current_time - given_time > timedelta(hours=24)
+    except ValueError:
+        raise ValueError("The date string must be in the format 'YYYY-MM-DD-HH-MM-SS'")
+
+def isPassed24hoursByPath(file_path) -> bool:
+    """
+    input   : date format
+    output  : bool
+    """
+    try:
+        # file path to date format 
+        last_modify_date = GetLastModifyDate(file_path)
+
         # Convert the input string to a datetime object
         date_format = "%Y-%m-%d-%H-%M-%S"
         given_time = datetime.strptime(date_string, date_format)
