@@ -61,6 +61,7 @@ async def on_message(message):
     if message.content.startswith("?yd_https://www.youtube"):
         url = message.content[4:]
         logger.debug(f"url -> {url}")
+        await message.channel.send("download start")
         await message.channel.send(start_youtube_download(url))
 
 client.run(os.environ["MUSIC_TOKEN"])

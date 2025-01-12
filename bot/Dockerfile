@@ -4,6 +4,6 @@ WORKDIR /bot
 
 COPY requirements.txt requirements.txt
 
-RUN pip install -r requirements.txt
+RUN apt update && apt install -y ffmpeg && pip install -r requirements.txt
 
 CMD ["python","main.py"]
