@@ -40,7 +40,7 @@ def GetLastModifyDate(filepath):
 # Return True when passed 24 hours, return False when not pass 24 hours
 def isPassed24hours(date_string: str) -> bool:
     """
-    input   : date format
+    input   : date format (last modify date)
     output  : bool
     """
     try:
@@ -58,7 +58,7 @@ def isPassed24hours(date_string: str) -> bool:
 
 def isPassed24hoursByPath(file_path) -> bool:
     """
-    input   : date format
+    input   : string (filepath)
     output  : bool
     """
     try:
