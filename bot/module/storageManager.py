@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 指定するディレクトリ
-target_dir = os.getenv()
+target_dir = os.getenv('YOUTUBE_PATH')
 
 def StorageManager():
     mp4_files = glob.glob(os.path.join(target_dir, "**", "*.mp4"), recursive=True)
