@@ -57,10 +57,15 @@ async def on_message(message):
                 "?help: return command list.\n"
                 "```"
             )
-    
+
     if message.content.startswith("?yd_https://www.youtube"):
         url = message.content[4:]
         logger.debug(f"url -> {url}")
-        await message.channel.send(start_youtube_download(url))
+        # await message.channel.send(start_youtube_download(url))
+        common_phrase = os.environ["COMMON_PHRASE"]
+        header = {"Authorization": f"Bearer {common_phrase}"}
+        payload = {'videoURL': url}
+        r = requests.post(os.environ["POST_TARGET"], headers=header, json=payload)
+        # r.status_code # debug
 
 client.run(os.environ["MUSIC_TOKEN"])
