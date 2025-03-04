@@ -63,8 +63,9 @@ async def on_message(message):
         logger.debug(f"url -> {url}")
         # await message.channel.send(start_youtube_download(url))
         common_phrase = os.environ["COMMON_PHRASE"]
-        payload = {'key1': common_phrase, 'key2': url}
-        r = requests.post(os.environ["POST_TARGET"], data=payload)
-        r.status_code # debug
+        header = {"Authorization": f"Bearer {common_phrase}"}
+        payload = {'videoURL': url}
+        r = requests.post(os.environ["POST_TARGET"], headers=header, json=payload)
+        # r.status_code # debug
 
 client.run(os.environ["MUSIC_TOKEN"])
