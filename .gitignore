@@ -1,7 +1,8 @@
 api/.env
 api/.venv/
 api/__pycache__/
+api/module/__pycache__/
+api/tmp/
 bot/.env
-bot/tmp/
 bot/.venv/
 bot/module/__pycache__/
