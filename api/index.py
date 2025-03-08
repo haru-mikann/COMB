@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from module.youtube import start_youtube_download
 import logging 
 
 load_dotenv()
@@ -18,8 +19,8 @@ async def root():
     logger.debug("Hello World")
     return [{"hello":"world"}]
 
-@app.get("/vid_url")
-async def get_vid_url(request: Request):
+@app.get("/download_video")
+async def download_video(request: Request):
     auth_header = request.headers.get("Authorization")
 
     if auth_header != f"Bearer {COMMON_PHRASE}":
@@ -30,7 +31,10 @@ async def get_vid_url(request: Request):
         raise HTTPException(status_code=400, detail="Bad Request: 'videoURL' is required")
     video_url = data["videoURL"]
 
-    Return Responce(status_code = 204)
+    # Download YouTube Video
+    download_status = start_youtube_download(video_url)
+
+    return {"message": download_status}
 
 # ./tmp_video/afewmomentslater.mp4
 @app.get("/tmp_video/{file_name}")
