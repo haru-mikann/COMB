@@ -32,9 +32,14 @@ async def download_video(request: Request):
     video_url = data["videoURL"]
 
     # Download YouTube Video
-    download_status = start_youtube_download(video_url)
-
-    return {"message": download_status}
+    try:
+        download_status = start_youtube_download(video_url)
+        if download_status:
+            return Responce(status_code = 200)
+        else:
+            raise HTTPException(status_code=500, detail=f"Download Error: {download_status}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 # ./tmp_video/afewmomentslater.mp4
 @app.get("/tmp_video/{file_name}")

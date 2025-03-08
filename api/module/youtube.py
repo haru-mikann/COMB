@@ -19,11 +19,12 @@ def start_youtube_download(url):
         ydl = YoutubeDL(option)
         ydl.download(url)
         # TODO webダウンロードリンクを発行
-        return "download Success"
+        # return "download Success"
+        return True
     except Exception as e:
-        logger.info(f"youtube download error  -> {e}")
-        return f"download fail. \n{e}"
-    
+        # logger.info(f"youtube download error  -> {e}")
+        # return f"download fail. \n{e}"
+        return e
 
 def delete_file(path):
     try:
