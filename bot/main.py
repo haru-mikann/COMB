@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import discord
 from module.weather import weather
-from module.youtube import start_youtube_download
 import requests
 import logging
 
@@ -61,7 +60,6 @@ async def on_message(message):
     if message.content.startswith("?yd_https://www.youtube"):
         url = message.content[4:]
         logger.debug(f"url -> {url}")
-        # await message.channel.send(start_youtube_download(url))
         common_phrase = os.environ["COMMON_PHRASE"]
         header = {"Authorization": f"Bearer {common_phrase}"}
         payload = {'videoURL': url}
