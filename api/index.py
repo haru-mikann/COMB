@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import FileResponse
-from module.youtube import start_youtube_download
+from module.youtube import start_youtube_download_asynchronously
 import logging 
 
 load_dotenv()
@@ -33,7 +33,7 @@ async def download_video(request: Request):
 
     # Download YouTube Video
     try:
-        download_status = start_youtube_download(video_url)
+        download_status = await start_youtube_download_asynchronously(video_url)
         if download_status:
             return Responce(status_code = 200)
         else:

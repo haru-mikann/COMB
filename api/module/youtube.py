@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from yt_dlp import YoutubeDL
 import logging
+import asyncio
 
 logger = logging.getLogger(__name__)
 
@@ -16,15 +17,14 @@ def start_youtube_download(url):
         option = {
             "outtmpl":f"{path}%(title)s.%(ext)s"
         }#パスは実行する環境に合わせて
-        ydl = YoutubeDL(option)
-        ydl.download(url)
-        # TODO webダウンロードリンクを発行
-        # return "download Success"
+        with YoutubeDL(option) as ydl:
+            ydl.download(url)
         return True
     except Exception as e:
-        # logger.info(f"youtube download error  -> {e}")
-        # return f"download fail. \n{e}"
         return e
+
+async def start_youtube_download_asynchronously(url):
+    return await asyncio.to_thread(start_youtube_download, url)
 
 def delete_file(path):
     try:
