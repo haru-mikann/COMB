@@ -2,9 +2,8 @@ import os
 from dotenv import load_dotenv
 import discord
 from module.weather import weather
-from module.youtube import start_youtube_download
-import requests
 import logging
+import httpx
 
 load_dotenv()
 
@@ -61,11 +60,12 @@ async def on_message(message):
     if message.content.startswith("?yd_https://www.youtube"):
         url = message.content[4:]
         logger.debug(f"url -> {url}")
-        # await message.channel.send(start_youtube_download(url))
         common_phrase = os.environ["COMMON_PHRASE"]
         header = {"Authorization": f"Bearer {common_phrase}"}
         payload = {'videoURL': url}
-        r = requests.post(os.environ["POST_TARGET"], headers=header, json=payload)
-        # r.status_code # debug
+        async with httpx.AsyncClient() as client:
+            r = await client.post(os.environ["POST_TARGET"], headers=headers, json=payload)
+            logger.debug(f"POST status code: {r.status_code}")
+        await message.channel.send("Download request sent.")
 
 client.run(os.environ["MUSIC_TOKEN"])
