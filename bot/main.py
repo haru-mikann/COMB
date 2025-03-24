@@ -64,7 +64,7 @@ async def on_message(message):
         header = {"Authorization": f"Bearer {common_phrase}"}
         payload = {'videoURL': url}
         async with httpx.AsyncClient() as client:
-            r = await client.post(os.environ["POST_TARGET"], headers=headers, json=payload)
+            r = await client.post(os.environ["POST_TARGET"], headers=header, json=payload)
             logger.debug(f"POST status code: {r.status_code}")
         await message.channel.send("Download request sent.")
 
