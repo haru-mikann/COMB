@@ -64,8 +64,19 @@ async def on_message(message):
         header = {"Authorization": f"Bearer {common_phrase}"}
         payload = {'videoURL': url}
         async with httpx.AsyncClient() as client:
-            r = await client.post(os.environ["POST_TARGET"], headers=header, json=payload)
-            logger.debug(f"POST status code: {r.status_code}")
-        await message.channel.send("Download request sent.")
+            try:
+                r = await client.post(os.environ["POST_TARGET"], headers=header, json=payload)
+                logger.debug(f"POST status code: {r.status_code}")
+
+                if r.status_code == 200:
+                    await message.channel.send("Download request sent successfully.")
+                else:
+                    error_text = r.text
+                    await message.channel.send(
+                        f"Error occurred!\nStatus Code: {r.status_code}\nDetails: {error_text}"
+                    )
+            except Exception as e: # for unexpected error
+                logger.error(f"Unexpected error: {e}")
+                await message.channel.send(f"Unexpected error occurred: {str(e)}")
 
 client.run(os.environ["MUSIC_TOKEN"])
