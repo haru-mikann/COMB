@@ -5,6 +5,7 @@ from discord.ext import commands
 from module.weather import weather
 import logging
 import httpx
+import requests
 
 load_dotenv()
 
@@ -27,30 +28,30 @@ def get_gip_addr():
 async def on_ready():
     logger.info('start discord bot')
 
-@client.event
-async def get_ip():
+@client.command()
+async def get_ip(ctx):
     logger.info(f"command=?get_ip msg={get_gip_addr()}")
-    await message.channel.send(get_gip_addr())
+    await ctx.send(get_gip_addr())
 
-@client.event
-async def hello():
+@client.command()
+async def hello(ctx):
     logger.info("command=?hello msg=Hello!")
-    await message.channel.send("Hello!")
+    await ctx.send("Hello!")
 
-@client.event
-async def tokyo_weather():
+@client.command()
+async def tokyo_weather(ctx):
     logger.info(f"command=?tokyo_weather msg={weather('tokyo')}")
-    await message.channel.send(weather("tokyo"))
+    await ctx.send(weather("tokyo"))
 
-@client.event
-async def aichi_weather():
+@client.command()
+async def aichi_weather(ctx):
     logger.info(f"command=?aichi_weather msg={weather('aichi')}")
-    await message.channel.send(weather("aichi"))
+    await ctx.send(weather("aichi"))
 
-@client.event
-async def help():
+@client.command()
+async def helpme(ctx):
     logger.info("command=?help")
-    await message.channel.send(
+    await ctx.send(
         "```\n"\
         "?get_ip: このサーバのglobal IPアドレスを返します。\n" \
         "?hello: return 'Hello!'\n" \
