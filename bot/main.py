@@ -62,10 +62,9 @@ async def helpme(ctx):
         "```"
     )
 
-@client.event
-async def on_message(message):
-    if message.content.startswith("?yd_https://www.youtube"):
-        url = message.content[4:]
+@client.command()
+async def yd(ctx, url: str):
+    if "https://www.youtube" in url:
         logger.debug(f"url -> {url}")
         common_phrase = os.environ["COMMON_PHRASE"]
         header = {"Authorization": f"Bearer {common_phrase}"}
@@ -73,18 +72,17 @@ async def on_message(message):
         async with httpx.AsyncClient() as client_httpx:
             try:
                 r = await client_httpx.post(os.environ["POST_TARGET"], headers=header, json=payload)
-                logger.debug(f"POST status code: {r.status_code}")
+                logger.info(f"POST status code: {r.status_code}")
 
                 if r.status_code == 200:
-                    await message.channel.send("Download request sent successfully.")
+                    await ctx.send("Download request sent successfully.")
                 else:
                     error_text = r.text
-                    await message.channel.send(
+                    await ctx.send(
                         f"Error occurred!\nStatus Code: {r.status_code}\nDetails: {error_text}"
                     )
             except Exception as e: # for unexpected error
                 logger.error(f"Unexpected error: {e}")
-                await message.channel.send(f"Unexpected error occurred: {str(e)}")
-    await client.process_commands(message)
+                await ctx.send(f"Unexpected error occurred: {str(e)}")
 
 client.run(os.environ["MUSIC_TOKEN"])
