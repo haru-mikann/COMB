@@ -19,7 +19,7 @@ async def root():
     logger.debug("Hello World")
     return [{"hello":"world"}]
 
-@app.get("/download_video")
+@app.post("/download_video")
 async def download_video(request: Request):
     auth_header = request.headers.get("Authorization")
 
@@ -35,7 +35,8 @@ async def download_video(request: Request):
     try:
         download_status = await start_youtube_download_asynchronously(video_url)
         if download_status:
-            return Responce(status_code = 200)
+            # return Response(status_code = 200)
+            return
         else:
             raise HTTPException(status_code=500, detail=f"Download Error: {download_status}")
     except Exception as e:
