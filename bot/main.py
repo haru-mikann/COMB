@@ -70,9 +70,9 @@ async def on_message(message):
         common_phrase = os.environ["COMMON_PHRASE"]
         header = {"Authorization": f"Bearer {common_phrase}"}
         payload = {'videoURL': url}
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient() as client_httpx:
             try:
-                r = await client.post(os.environ["POST_TARGET"], headers=header, json=payload)
+                r = await client_httpx.post(os.environ["POST_TARGET"], headers=header, json=payload)
                 logger.debug(f"POST status code: {r.status_code}")
 
                 if r.status_code == 200:
@@ -85,5 +85,6 @@ async def on_message(message):
             except Exception as e: # for unexpected error
                 logger.error(f"Unexpected error: {e}")
                 await message.channel.send(f"Unexpected error occurred: {str(e)}")
+    await client.process_commands(message)
 
 client.run(os.environ["MUSIC_TOKEN"])
