@@ -20,7 +20,7 @@ async def root():
     return [{"hello":"world"}]
 
 @app.post("/download_video")
-async def download_video(request: Request):
+async def download_video(request: Request, url: str):
     auth_header = request.headers.get("Authorization")
 
     if auth_header != f"Bearer {COMMON_PHRASE}":
